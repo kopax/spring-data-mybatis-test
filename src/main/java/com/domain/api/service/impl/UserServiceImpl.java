@@ -56,7 +56,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
     user.setDeleted(true);
     updateIgnore(user);
 
-    getRepository().deleteLinkRoleUserByUserId(id);
+    getRepository().deleteRoleUserByUserId(id);
 
   }
 
@@ -80,7 +80,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
 
     if (user.getRoleList().size() > 0) {
       for (Role role : user.getRoleList())
-        getRepository().insertLinkRoleUser(role.getId(), user.getId());
+        getRepository().insertRoleUser(role.getId(), user.getId());
     }
 
   }
@@ -90,11 +90,11 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
   public void updateIgnore(User user) {
     super.updateIgnore(user);
 
-    getRepository().deleteLinkRoleUserByUserId(user.getId());
+    getRepository().deleteRoleUserByUserId(user.getId());
 
     if (user.getRoleList().size() > 0) {
       for (Role role : user.getRoleList())
-        getRepository().insertLinkRoleUser(role.getId(), user.getId());
+        getRepository().insertRoleUser(role.getId(), user.getId());
     }
 
 

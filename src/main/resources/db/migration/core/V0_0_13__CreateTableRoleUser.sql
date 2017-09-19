@@ -1,4 +1,4 @@
-CREATE TABLE "link_role_user" (
+CREATE TABLE "role_user" (
   "user_id" BIGINT NOT NULL,
   "role_id" BIGINT NOT NULL,
   CONSTRAINT user_fk FOREIGN KEY("user_id") REFERENCES "user"("id"),

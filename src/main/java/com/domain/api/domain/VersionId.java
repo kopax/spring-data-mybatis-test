@@ -15,13 +15,12 @@ import static org.apache.ibatis.type.JdbcType.TIMESTAMP;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public abstract class VersionId extends LongId implements Cloneable{
+public abstract class VersionId extends LongId implements Cloneable {
 
 	private static final Logger logger = LoggerFactory.getLogger(VersionId.class);
 
 	@Version
 	private Integer version;
-
 
 	@CreatedDate
 	@JsonUnwrapped

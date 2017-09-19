@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mybatis.annotations.*;
 
-import java.util.Set;
+import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
@@ -61,12 +61,8 @@ public class User extends VersionId {
 	private String mobile;
 
 	@ManyToMany
-	@JoinTable(
-		name = "link_role_user",
-		joinColumns = @JoinColumn(name = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "role_id")
-	)
-	private Set<Role> roleList;
+	@JoinTable(name = "role_user")
+	private List<Role> roleList;
 
 //	@Override
 //	public String getPassword() {

@@ -19,15 +19,18 @@
 package com.domain.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.annotations.One;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mybatis.annotations.*;
 
-import java.util.Set;
+import java.time.Instant;
+import java.util.List;
 
+import static org.apache.ibatis.type.JdbcType.TIMESTAMP;
 import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
 
 
@@ -39,7 +42,6 @@ import static org.springframework.data.repository.query.parser.Part.Type.CONTAIN
 @NoArgsConstructor
 @Entity(table = "role")
 @JsonIgnoreProperties("new")
-@EqualsAndHashCode(callSuper=false)
 public class Role extends VersionId {
 
 	private static final String PREFIX = "ROLE_";
@@ -50,14 +52,8 @@ public class Role extends VersionId {
 	})
 	private String name;
 
-
 	@ManyToMany
-	@JoinTable(
-			name = "link_role_user",
-			joinColumns = @JoinColumn(name = "role_id"),
-			inverseJoinColumns = @JoinColumn(name = "user_id")
-	)
-	private Set<User> userList;
+	private List<User> userList;
 
 
 	/**

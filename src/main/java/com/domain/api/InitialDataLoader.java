@@ -14,10 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @Profile({"default"})
@@ -44,13 +41,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         createRoleIfNotFound("CLIENT");
 
         Role adminRole = roleService.getByName("ADMIN");
+        Role userRole = roleService.getByName("USER");
         User admin = new User();
         admin.setUsername("admin");
         admin.setFirstName("admin");
         admin.setLastName("root");
         admin.setPassword("admin");
 
-        Set<Role> roleList = new HashSet<>(Arrays.asList(adminRole));
+        List<Role> roleList = Arrays.asList(adminRole, userRole);
         admin.setRoleList(roleList);
         admin.setDeleted(false);
         userService.insert(admin);
@@ -61,7 +59,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         admin2.setLastName("root2");
         admin2.setPassword("admin2");
 
-        Set<Role> roleList2 = new HashSet<>(Arrays.asList(adminRole));
+        List<Role> roleList2 = Arrays.asList(adminRole);
         admin2.setRoleList(roleList2);
         admin2.setDeleted(false);
         userService.insert(admin2);

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("role")
+@RequestMapping("roles")
 public class RoleController {
 
   @Autowired
@@ -47,7 +47,6 @@ public class RoleController {
   @GetMapping("{id}")
   Role getRole(@PathVariable("id") Long id){
     Role res = roleService.get(id);
-    //获取角色对应的用户
     UserDTO userDTO = new UserDTO();
 //    userDTO.setRoleId(res.getId());
     List<User> users = this.userService.findAll(userDTO);

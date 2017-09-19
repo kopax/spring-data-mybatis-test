@@ -1,4 +1,4 @@
-CREATE TABLE "link_role_client" (
+CREATE TABLE "role_client" (
   "client_id" VARCHAR(256) NOT NULL,
   "role_id" BIGINT NOT NULL,
   CONSTRAINT client_fk FOREIGN KEY("client_id") REFERENCES "oauth_client_details"("client_id"),

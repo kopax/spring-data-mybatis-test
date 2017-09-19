@@ -3,16 +3,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.domain.api.domain.User">
 
-  <insert id="insertLinkRoleUser">
+  <insert id="insertRoleUser">
     INSERT INTO
-      "link_role_user"("role_id","user_id")
+      "role_user"("role_id","user_id")
     VALUES
       (#{roleId}, #{userId,jdbcType=NUMERIC})
   </insert>
 
-  <delete id="deleteLinkRoleUserByUserId">
+  <delete id="deleteRoleUserByUserId">
     DELETE FROM
-      "link_role_user"
+      "role_user"
     WHERE
       "user_id" = #{userId,jdbcType=NUMERIC}
   </delete>

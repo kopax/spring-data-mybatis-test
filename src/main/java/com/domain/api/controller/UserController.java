@@ -1,6 +1,8 @@
 package com.domain.api.controller;
 
 
+import com.domain.api.domain.Role;
+import com.domain.api.domain.RoleDTO;
 import com.domain.api.domain.User;
 import com.domain.api.domain.UserDTO;
 import com.domain.api.service.RoleService;
@@ -9,13 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("users")
 public class UserController {
 
   @Autowired
@@ -27,16 +31,14 @@ public class UserController {
   @GetMapping
   Page<User> list(@PageableDefault(size = 20) Pageable pageable, UserDTO condition) {
     Page<User> page = userService.findAll(pageable, condition);
-//    if (page.hasContent()) {
-//      if (null != condition.getContainRole() && condition.getContainRole()) {
-//        page.getContent().forEach(user -> {
-//          RoleDTO cond = new RoleDTO();
-//          cond.setUserId(user.getId());
-//          List<Role> roles = roleService.findAll(cond);
-//          user.setRoles(roles);
-//        });
-//      }
-//    }
+    if (page.hasContent()) {
+      page.getContent().forEach(user -> {
+        RoleDTO cond = new RoleDTO();
+//        cond.setUserId(user.getId());
+        List<Role> roles = roleService.findAll(cond);
+        user.setRoleList(roles);
+      });
+    }
     return page;
   }
 

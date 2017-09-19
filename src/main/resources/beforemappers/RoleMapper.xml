@@ -6,7 +6,7 @@
   <sql id="SELECT_CONDITION_INNER">
     <if test="_condition.userId != null">
       and role.id in
-      (select role_id from link_role_user where user_id = #{_condition.userId,jdbcType=NUMERIC})
+      (select role_id from role_user where user_id = #{_condition.userId,jdbcType=NUMERIC})
     </if>
   </sql>
 
