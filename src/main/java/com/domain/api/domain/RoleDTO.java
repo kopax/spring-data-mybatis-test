@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class RoleDTO extends Role {
 
-    private String fuzzyLastModifiedDate;
+    private String fuzzyName;
+
 }

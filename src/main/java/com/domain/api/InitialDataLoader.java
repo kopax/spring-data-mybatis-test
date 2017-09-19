@@ -46,21 +46,25 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Role adminRole = roleService.getByName("ADMIN");
         User admin = new User();
         admin.setUsername("admin");
+        admin.setFirstName("admin");
+        admin.setLastName("root");
         admin.setPassword("admin");
 
         Set<Role> roleList = new HashSet<>(Arrays.asList(adminRole));
         admin.setRoleList(roleList);
-        admin.setDeleted(true);
-        userService.save(admin);
+        admin.setDeleted(false);
+        userService.insert(admin);
 
-        // test user
-        User test = new User();
-        test.setUsername("ajt");
-        test.setPassword("ajt");
+        User admin2 = new User();
+        admin2.setUsername("admin2");
+        admin2.setFirstName("admin");
+        admin2.setLastName("root2");
+        admin2.setPassword("admin2");
 
-        test.setRoleList(new HashSet<>(Arrays.asList(adminRole)));
-        userService.save(test);
-
+        Set<Role> roleList2 = new HashSet<>(Arrays.asList(adminRole));
+        admin2.setRoleList(roleList2);
+        admin2.setDeleted(false);
+        userService.insert(admin2);
     }
 
 

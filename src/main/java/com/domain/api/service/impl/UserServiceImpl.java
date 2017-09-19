@@ -1,5 +1,6 @@
 package com.domain.api.service.impl;
 
+import com.domain.api.domain.Role;
 import com.domain.api.domain.User;
 import com.domain.api.domain.UserDTO;
 import com.domain.api.repository.UserRepository;
@@ -77,11 +78,10 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
     user.setDeleted(false);
     super.insert(user);
 
-//    if (CollectionUtil.isNotEmpty(user.getRoles())) {
-//      user.getRoles().forEach(role -> {
-//        getRepository().insertLinkRoleUser(role.getId(), user.getId());
-//      });
-//    }
+    if (user.getRoleList().size() > 0) {
+      for (Role role : user.getRoleList())
+        getRepository().insertLinkRoleUser(role.getId(), user.getId());
+    }
 
   }
 
@@ -91,11 +91,12 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
     super.updateIgnore(user);
 
     getRepository().deleteLinkRoleUserByUserId(user.getId());
-//    if (CollectionUtil.isNotEmpty(user.getRoles())) {
-//      user.getRoles().forEach(role -> {
-//        getRepository().insertLinkRoleUser(role.getId(), user.getId());
-//      });
-//    }
+
+    if (user.getRoleList().size() > 0) {
+      for (Role role : user.getRoleList())
+        getRepository().insertLinkRoleUser(role.getId(), user.getId());
+    }
+
 
   }
 }

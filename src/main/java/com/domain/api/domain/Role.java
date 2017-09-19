@@ -18,25 +18,47 @@
 
 package com.domain.api.domain;
 
-import org.springframework.data.mybatis.annotations.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.One;
+import org.springframework.data.mybatis.annotations.*;
+
+import java.util.Set;
+
+import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
 
 
 /**
  * Sample domain class representing roles. Mapped with XML.
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(table = "role")
+@JsonIgnoreProperties("new")
+@EqualsAndHashCode(callSuper=false)
 public class Role extends VersionId {
 
 	private static final String PREFIX = "ROLE_";
 
+	@Conditions({
+			@Condition,
+			@Condition(properties = "fuzzyName", type = CONTAINING)
+	})
 	private String name;
 
 
-	/**
-	 * Creates a new instance of {@code Role}.
-	 */
-	public Role() {
-	}
+	@ManyToMany
+	@JoinTable(
+			name = "link_role_user",
+			joinColumns = @JoinColumn(name = "role_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id")
+	)
+	private Set<User> userList;
+
 
 	/**
 	 * Creates a new preconfigured {@code Role}.

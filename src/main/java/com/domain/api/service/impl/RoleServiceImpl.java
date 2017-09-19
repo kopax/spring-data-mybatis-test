@@ -3,6 +3,7 @@ package com.domain.api.service.impl;
 
 import com.domain.api.domain.Role;
 import com.domain.api.domain.RoleDTO;
+import com.domain.api.domain.User;
 import com.domain.api.repository.RoleRepository;
 import com.domain.api.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,11 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
 
     super.updateIgnore(role);
     getRepository().deleteLinkRoleUserByRoleId(role.getId());
-//    if (CollectionUtil.isNotEmpty(role.getUsers())) {
-//      role.getUsers().forEach(user -> {
-//        getRepository().insertLinkRoleUser(role.getId(), user.getId());
-//      });
-//    }
+
+    if (role.getUserList().size() > 0) {
+      for (User user: role.getUserList())
+        getRepository().insertLinkRoleUser(role.getId(), user.getId());
+    }
 
   }
 
@@ -51,12 +52,11 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
   @Transactional
   public void insert(Role role) {
     super.insert(role);
-//    //更新角色对应的用户
-//    if (CollectionUtil.isNotEmpty(role.getUsers())) {
-//      role.getUsers().forEach(user -> {
-//        getRepository().insertLinkRoleUser(role.getId(), user.getId());
-//      });
-//    }
+
+    if (role.getUserList().size() > 0) {
+      for (User user: role.getUserList())
+        getRepository().insertLinkRoleUser(role.getId(), user.getId());
+    }
 
   }
 

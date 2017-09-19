@@ -62,9 +62,9 @@ public class User extends VersionId {
 
 	@ManyToMany
 	@JoinTable(
-		name = "link_user_role",
-		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+		name = "link_role_user",
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
 	private Set<Role> roleList;
 

@@ -1,5 +1,7 @@
 package com.domain.api.config;
 
+import com.domain.api.domain.Role;
+import com.domain.api.domain.User;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.*;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -73,6 +75,8 @@ public class CoreDbConfig implements DataSourceConfiguration {
                 new MonthTypeHandler(),
         });
         sessionFactory.setTypeAliases(new Class[] {
+                User.class,
+                Role.class,
         });
         return sessionFactory;
     }

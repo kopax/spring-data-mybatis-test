@@ -5,14 +5,14 @@
 
   <insert id="insertLinkRoleUser">
     INSERT INTO
-      "link_user_role"("role_id","user_id")
+      "link_role_user"("role_id","user_id")
     VALUES
       (#{roleId}, #{userId,jdbcType=NUMERIC})
   </insert>
 
   <delete id="deleteLinkRoleUserByRoleId">
     DELETE FROM
-      "link_user_role"
+      "link_role_user"
     WHERE
       "role_id" = #{roleId,jdbcType=NUMERIC}
   </delete>
