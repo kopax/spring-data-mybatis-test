@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.domain.api.domain.User">
+
+  <insert id="insertLinkRoleUser">
+    INSERT INTO
+      "link_role_user"("role_id","user_id")
+    VALUES
+      (#{roleId}, #{userId,jdbcType=NUMERIC})
+  </insert>
+
+  <delete id="deleteLinkRoleUserByUserId">
+    DELETE FROM
+      "link_role_user"
+    WHERE
+      "user_id" = #{userId,jdbcType=NUMERIC}
+  </delete>
+</mapper>
