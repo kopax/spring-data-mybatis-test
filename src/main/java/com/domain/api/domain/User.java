@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mybatis.annotations.*;
 
+import org.springframework.data.annotation.Transient;
+
 import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
@@ -60,8 +62,7 @@ public class User extends VersionId {
 	})
 	private String mobile;
 
-	@ManyToMany
-	@JoinTable(name = "role_user")
+	@Transient
 	private List<Role> roleList;
 
 //	@Override

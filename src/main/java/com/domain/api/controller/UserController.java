@@ -34,8 +34,9 @@ public class UserController {
     if (page.hasContent()) {
       page.getContent().forEach(user -> {
         RoleDTO cond = new RoleDTO();
-//        cond.setUserId(user.getId());
+        cond.setUserId(user.getId());
         List<Role> roles = roleService.findAll(cond);
+        List<Role> roles2 = roleService.getByUserId(user.getId());
         user.setRoleList(roles);
       });
     }

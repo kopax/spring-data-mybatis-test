@@ -11,6 +11,8 @@ import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, Long> implements RoleService {
 
@@ -31,6 +33,14 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
     RoleDTO cond = new RoleDTO();
     cond.setName(name);
     return getRepository().findOne(cond);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<Role> getByUserId(Long userId) {
+    RoleDTO cond = new RoleDTO();
+    cond.setUserId(userId);
+    return getRepository().findAll(cond);
   }
 
   @Override

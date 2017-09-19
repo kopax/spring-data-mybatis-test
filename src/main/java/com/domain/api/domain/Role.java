@@ -19,19 +19,18 @@
 package com.domain.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.*;
-import org.springframework.data.mybatis.annotations.*;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mybatis.annotations.Condition;
+import org.springframework.data.mybatis.annotations.Conditions;
+import org.springframework.data.mybatis.annotations.Entity;
 
-import java.time.Instant;
 import java.util.List;
 
-import static org.apache.ibatis.type.JdbcType.TIMESTAMP;
 import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
+import static org.springframework.data.repository.query.parser.Part.Type.IN;
 
 
 /**
@@ -52,7 +51,11 @@ public class Role extends VersionId {
 	})
 	private String name;
 
-	@ManyToMany
+	@Transient
+	@Conditions({
+			@Condition(column = "user_id", properties = "user.id"),
+			@Condition(column = "user_id", properties = "userId")
+	})
 	private List<User> userList;
 
 

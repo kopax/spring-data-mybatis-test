@@ -57,7 +57,7 @@ spring:
     time-zone: Europe/Paris
   data:
     mybatis:
-      repository-base-packages: com.kopaxgroup.api.**.repository
+      repository-base-packages: com.domain.api.**.repository
       mapper-locations: classpath*:/mappers/*Mapper.xml
       before-mapper-locations: classpath*:/beforemappers/*Mapper.xml
 
