@@ -61,7 +61,6 @@ public class UserController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   Long create(@RequestBody User user) {
-//    user.setStatus(normal);
     preProcessUser(user);
     userService.insert(user);
     return user.getId();

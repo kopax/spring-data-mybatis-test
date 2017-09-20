@@ -47,11 +47,11 @@ public class RoleController {
   @GetMapping("{id}")
   Role getRole(@PathVariable("id") Long id){
     Role res = roleService.get(id);
-    //获取角色对应的用户
+    // we add user relation
     UserDTO userDTO = new UserDTO();
-//    userDTO.setRoleId(res.getId());
-    List<User> users = this.userService.findAll(userDTO);
-//    res.setUsers(users);
+    userDTO.setRoleId(res.getId());
+    List<User> userList = this.userService.findAll(userDTO);
+    res.setUserList(userList);
 
     return res;
   }
