@@ -34,15 +34,6 @@ public class RoleController {
 
   @GetMapping
   Page<Role> list(@PageableDefault(size = 20) Pageable pageable, RoleDTO condition) {
-    Page<Role> page = roleService.findAll(pageable, condition);
-    if (page.hasContent()) {
-      page.getContent().forEach(user -> {
-        UserDTO cond = new UserDTO();
-        cond.setRoleId(user.getId());
-        List<User> users = userService.findAll(cond);
-        user.setUserList(users);
-      });
-    }
     return roleService.findAll(pageable, condition);
   }
 
@@ -56,10 +47,11 @@ public class RoleController {
   @GetMapping("{id}")
   Role getRole(@PathVariable("id") Long id){
     Role res = roleService.get(id);
+    //获取角色对应的用户
     UserDTO userDTO = new UserDTO();
-    userDTO.setRoleId(res.getId());
+//    userDTO.setRoleId(res.getId());
     List<User> users = this.userService.findAll(userDTO);
-    res.setUserList(users);
+//    res.setUsers(users);
 
     return res;
   }

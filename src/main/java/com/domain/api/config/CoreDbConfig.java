@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;
+import org.springframework.data.mybatis.repository.config.MybatisMappersRegister;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -20,8 +21,11 @@ import java.util.Properties;
 
 @Configuration
 @EnableMybatisRepositories(
-        value = "com.domain.api",
-        mapperLocations = "classpath*:/mappers/*Mapper.xml"
+        value = "com.domain.api.**.repository",
+        mapperLocations = {
+                "classpath*:/mappers/*Mapper.xml",
+                "classpath*:/beforemappers/*Mapper.xml"
+        }
 )
 public class CoreDbConfig implements DataSourceConfiguration {
 

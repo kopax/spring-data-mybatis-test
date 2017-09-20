@@ -9,7 +9,7 @@ import org.springframework.data.mybatis.repository.support.MybatisRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-//@RepositoryRestResource(exported = false)
+@RepositoryRestResource(exported = false)
 public interface RoleRepository extends MybatisRepository<Role, Long> {
   @Query(operation = insert)
   int insertRoleUser(@Param("roleId") Long roleId, @Param("userId") Long userId);

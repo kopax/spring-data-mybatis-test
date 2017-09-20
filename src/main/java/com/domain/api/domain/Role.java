@@ -21,16 +21,13 @@ package com.domain.api.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Condition;
-import org.springframework.data.mybatis.annotations.Conditions;
-import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.annotations.*;
 
 import java.util.List;
 
 import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
-import static org.springframework.data.repository.query.parser.Part.Type.IN;
 
 
 /**
@@ -40,71 +37,47 @@ import static org.springframework.data.repository.query.parser.Part.Type.IN;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(table = "role")
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties("new")
 public class Role extends VersionId {
 
-	private static final String PREFIX = "ROLE_";
+    private static final String PREFIX = "ROLE_";
 
-	@Conditions({
-			@Condition,
-			@Condition(properties = "fuzzyName", type = CONTAINING)
-	})
-	private String name;
-
-	@Transient
-	@Conditions({
-			@Condition(column = "user_id", properties = "user.id"),
-			@Condition(column = "user_id", properties = "userId")
-	})
-	private List<User> userList;
+    @Conditions({
+            @Condition,
+            @Condition(properties = "fuzzyName", type = CONTAINING)
+    })
+    private String name;
 
 
-	/**
-	 * Creates a new preconfigured {@code Role}.
-	 *
-	 * @param name
-	 */
-	public Role(final String name) {
-		this.name = name;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		Role role = (Role) o;
-
-		return id != null ? id.equals(role.id) : role.id == null;
-
-	}
-
-	@Override
-	public int hashCode() {
-		return id != null ? id.hashCode() : 0;
-	}
+    @ManyToMany
+    @JoinTable(name = "role_user")
+    private List<User> userList;
 
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Creates a new preconfigured {@code Role}.
+     *
+     * @param name
+     */
+    public Role(final String name) {
+        this.name = name;
+    }
 
-	/*
+
+    /*
      * (non-Javadoc)
      *
      * @see java.lang.Object#toString()
      */
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		return PREFIX + name;
-	}
+        return PREFIX + name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

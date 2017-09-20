@@ -38,6 +38,6 @@ public abstract class VersionId extends LongId implements Cloneable {
 	@LastModifiedBy
 	private Long lastModifiedById;
 
-	private Boolean deleted = true;
+	private Boolean deleted = false;
 
 }

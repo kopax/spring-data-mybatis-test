@@ -50,7 +50,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
     super.updateIgnore(role);
     getRepository().deleteRoleUserByRoleId(role.getId());
 
-    if (role.getUserList().size() > 0) {
+    if (role.getUserList() != null && role.getUserList().size() > 0) {
       for (User user: role.getUserList())
         getRepository().insertRoleUser(role.getId(), user.getId());
     }
@@ -63,7 +63,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
   public void insert(Role role) {
     super.insert(role);
 
-    if (role.getUserList().size() > 0) {
+    if (role.getUserList() != null && role.getUserList().size() > 0) {
       for (User user: role.getUserList())
         getRepository().insertRoleUser(role.getId(), user.getId());
     }

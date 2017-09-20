@@ -12,7 +12,7 @@ CREATE TABLE "user" (
   "created_by_id" BIGINT DEFAULT NULL,
   "last_modified_date" TIMESTAMP DEFAULT NULL,
   "last_modified_by_id" BIGINT DEFAULT NULL,
-  "deleted" BOOLEAN NOT NULL DEFAULT TRUE,
+  "deleted" BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY ("id"),
   CONSTRAINT user_username_unique UNIQUE ("username"),
   CONSTRAINT user_mobile_unique UNIQUE ("mobile"),

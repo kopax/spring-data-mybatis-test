@@ -8,7 +8,7 @@ CREATE TABLE "role" (
   "created_by_id" BIGINT DEFAULT NULL,
   "last_modified_date" TIMESTAMP DEFAULT NULL,
   "last_modified_by_id" BIGINT DEFAULT NULL,
-  "deleted" BOOLEAN NOT NULL DEFAULT TRUE,
+  "deleted" BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY ("id"),
   CONSTRAINT role_name_unique UNIQUE ("name"),
   CONSTRAINT role_code_unique UNIQUE ("code")

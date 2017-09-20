@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("users")
@@ -27,7 +27,6 @@ public class UserController {
   @Autowired
   private RoleService roleService;
 
-
   @GetMapping
   Page<User> list(@PageableDefault(size = 20) Pageable pageable, UserDTO condition) {
     Page<User> page = userService.findAll(pageable, condition);
@@ -36,7 +35,6 @@ public class UserController {
         RoleDTO cond = new RoleDTO();
         cond.setUserId(user.getId());
         List<Role> roles = roleService.findAll(cond);
-        List<Role> roles2 = roleService.getByUserId(user.getId());
         user.setRoleList(roles);
       });
     }

@@ -55,11 +55,13 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Europe/Paris
-  data:
-    mybatis:
-      repository-base-packages: com.domain.api.**.repository
-      mapper-locations: classpath*:/mappers/*Mapper.xml
-      before-mapper-locations: classpath*:/beforemappers/*Mapper.xml
+
+#    THIS IS configured in CoreDbConfig
+#  data:
+#    mybatis:
+#      repository-base-packages: com.domain.api.**.repository
+#      mapper-locations: classpath*:/mappers/*Mapper.xml
+#      before-mapper-locations: classpath*:/beforemappers/*Mapper.xml
 
   application:
     name: api

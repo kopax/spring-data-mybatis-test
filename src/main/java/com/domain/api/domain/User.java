@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
+import static org.springframework.data.repository.query.parser.Part.Type.IN;
 
 @Data
 @AllArgsConstructor
@@ -62,7 +63,13 @@ public class User extends VersionId {
 	})
 	private String mobile;
 
-	@Transient
+	@ManyToMany
+	@Conditions({
+			@Condition,
+			@Condition(type = IN, properties = "roleId"),
+//			@Condition(properties = "userId", type = CONTAINING)
+	})
+	@JoinTable(name = "role_user")
 	private List<Role> roleList;
 
 //	@Override
