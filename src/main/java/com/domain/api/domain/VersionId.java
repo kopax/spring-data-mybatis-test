@@ -6,12 +6,15 @@ import lombok.EqualsAndHashCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.*;
+import org.springframework.data.mybatis.annotations.Condition;
+import org.springframework.data.mybatis.annotations.Conditions;
 import org.springframework.data.mybatis.annotations.JdbcType;
 import org.springframework.data.mybatis.domains.LongId;
 
 import java.time.Instant;
 
 import static org.apache.ibatis.type.JdbcType.TIMESTAMP;
+import static org.springframework.data.repository.query.parser.Part.Type.FALSE;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -38,6 +41,10 @@ public abstract class VersionId extends LongId implements Cloneable {
 	@LastModifiedBy
 	private Long lastModifiedById;
 
+    @Conditions({
+        @Condition,
+        @Condition(properties = "fuzzyDeleted", type = FALSE)
+    })
 	private Boolean deleted = false;
 
 }

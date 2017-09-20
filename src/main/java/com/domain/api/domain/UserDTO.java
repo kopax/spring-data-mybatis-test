@@ -15,6 +15,8 @@ public class UserDTO extends User {
     private String fuzzyMobile;
     private String fuzzyEmail;
 
+    private String fuzzyDeleted;
+
     private Long roleId;
     private Role role;
 
