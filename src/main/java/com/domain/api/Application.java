@@ -1,17 +1,18 @@
 package com.domain.api;
 
-import org.joda.time.LocalTime;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.time.LocalDate;
 
 @EnableAutoConfiguration
 @SpringBootApplication
 public class Application {
 
   public static void main(String[] args) {
-    LocalTime currentTime = new LocalTime();
-    System.out.println("The current local time is: " + currentTime);
+      LocalDate localDate = LocalDate.now();
+      System.out.println("The current local time is: " + localDate);
     SpringApplication.run(Application.class, args);
   }
 

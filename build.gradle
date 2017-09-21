@@ -1,9 +1,10 @@
+def springBootVersionDef = '1.5.7.RELEASE'
 
 buildscript {
 
     ext {
         gradleReleaseVersion = '2.4.1'
-        springBootVersion = '1.5.6.RELEASE'
+        springBootVersion = '1.5.7.RELEASE'
         springSessionJdbcVersion = '1.3.1.RELEASE'
         springSecurityOauth2Version = '2.2.0.RELEASE'
         springSecurityJwtVersion = '1.0.8.RELEASE'
@@ -17,6 +18,7 @@ buildscript {
         jacksonDatatypeJsr310Version = '2.9.0.pr1'
         buildInfoExtractorGradleVersion = '4.4.15'
         lombokVersion = '1.16.18'
+        flywayVersion = '4.2.0'
     }
 
     repositories {
@@ -37,6 +39,7 @@ buildscript {
     }
 }
 
+apply plugin: 'maven'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
@@ -45,6 +48,59 @@ apply plugin: 'propdeps-idea'
 apply plugin: 'application'
 
 mainClassName = 'com.domain.api.Application'
+
+task createPom << {
+    pom {
+        project {
+            groupId 'com.domain.api'
+            artifactId 'gs-gradle'
+            version '0.1.0'
+            properties {
+                project {
+                    build {
+                        sourceEncoding 'UTF-8'
+                    }
+                }
+                maven {
+                    compiler {
+                        source '1.8'
+                        target '1.8'
+                    }
+                }
+            }
+
+            inceptionYear '2008'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+    }.withXml {
+        asNode().appendNode('build').appendNode('plugins').with {
+            appendNode('plugin').with {
+                appendNode('groupId', 'org.springframework.boot')
+                appendNode('artifactId', 'spring-boot-maven-plugin')
+                appendNode('version', "${springBootVersionDef}")
+                appendNode('executions').appendNode('execution').appendNode('goals').with {
+                    appendNode('goal', 'repackage')
+                }
+            }
+            appendNode('plugin').with {
+                appendNode('groupId', 'org.apache.maven.plugins')
+                appendNode('artifactId', 'maven-jar-plugin')
+                appendNode('version', "3.0.2")
+                appendNode('configuration').appendNode('archive').appendNode('manifest').with {
+                    appendNode('addClasspath', "true")
+                    appendNode('classpathPrefix', "lib/")
+                    appendNode('mainClass', "com.domain.api.Application")
+                }
+            }
+        }
+    }.writeTo("pom.xml")
+}
 
 // tag::repositories[]
 repositories {
@@ -64,11 +120,11 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter:${springBootVersion}")
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-data-rest:${springBootVersion}")
     compile("org.postgresql:postgresql:${postgresqlVersion}")
-    compile("org.flywaydb:flyway-core")
+    compile("org.flywaydb:flyway-core:${flywayVersion}")
 
     compile("com.ifrabbit:spring-boot-starter-data-mybatis:${springBootStarterDataMybatisVersion}")
     compile("org.mybatis:mybatis-typehandlers-jsr310:${mybatisTypehandlersJsr310Version}")
@@ -78,7 +134,6 @@ dependencies {
 //    compile 'org.kie.modules:org-apache-commons-collections-main:6.5.0.Final'
 
     compile("org.projectlombok:lombok:${lombokVersion}")
-    compile "joda-time:joda-time:2.2"
     testCompile "junit:junit:4.12"
 }
 // end::dependencies[]

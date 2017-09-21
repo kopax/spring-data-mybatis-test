@@ -1,0 +1,105 @@
+server:
+  port: 8080
+  session:
+    timeout: -1
+    cookie:
+      domain: localhost
+      path: /
+      http-only: true
+      secure: false
+      name: JSESSIONID
+
+api:
+  oauth2:
+    resource:
+      name: domain/api
+    authorization:
+      alias: domain
+  db:
+    core:
+      version: 0.0.17
+      url: jdbc:postgresql://localhost:3333/DATA_V1?autoReconnect=true&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=UTF-8
+      username: backoffice
+      password: backoffice
+      driver-class-name: org.postgresql.Driver
+      minIdle: 0
+      maxIdle: 10
+      maxActive: 50
+      maxWait: 6000
+      testOnBorrow: true
+      validationQuery: SELECT 1
+      timeBetweenEvictionRunsMillis: 1800000
+      numTestsPerEvictionRun: 50
+      minEvictableIdleTimeMillis: 10
+      testWhileIdle: true
+  messages:
+    basenames:
+      - classpath*:/META-INF/api-application
+      - classpath*:/META-INF/api-core
+      - classpath*:/META-INF/api-company
+      - classpath*:/META-INF/api-customer
+      - classpath*:/META-INF/api-user
+
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+    favicon:
+      enabled: false
+    dispatch-options-request: false
+    dispatch-trace-request: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Europe/Paris
+
+#    THIS IS configured in CoreDbConfig
+#  data:
+#    mybatis:
+#      repository-base-packages: com.domain.api.**.repository
+#      mapper-locations: classpath*:/mappers/*Mapper.xml
+#      before-mapper-locations: classpath*:/beforemappers/*Mapper.xml
+
+  application:
+    name: api
+  devtools:
+    remote:
+      restart:
+        enabled: true
+
+#domain:
+#  userManagement:
+#    name: admin
+#    password: secret
+#
+#management:
+#  port: 8080
+#  address: 127.0.0.1
+#  context-path: /manage
+#  domain:
+#    enabled: true
+#    roles: SUPERUSER
+
+endpoints:
+  health:
+    sensitive: false
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+
+logging:
+  pattern:
+    console: "%msg%n"
+  level:
+    com: DEBUG
+    # sql log
+    com.domain.api: DEBUG
+    com.common.config: DEBUG
+    org.springframework.data.mybatis: DEBUG
+
+ribbon:
+  ServerListRefreshInterval: 1000
