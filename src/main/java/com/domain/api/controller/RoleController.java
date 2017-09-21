@@ -35,8 +35,8 @@ public class RoleController {
   // WITH PAGINATED METHOD
   @RequestMapping(value = "paged", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
   public ResponseEntity<?> showAllBis(PagedResourcesAssembler<Role> pageAssembler, @PageableDefault(size = 20) Pageable pageable, RoleDTO condition) {
-    Page<Role> roleList = roleService.findAll(pageable, condition);
-    PagedResources<?> resources = pageAssembler.toResource(roleList, new RoleResourceAssembler());
+    Page<Role> page = roleService.findAll(pageable, condition);
+    PagedResources<?> resources = pageAssembler.toResource(page, new RoleResourceAssembler());
     return ResponseEntity.ok(resources);
   }
 
@@ -64,7 +64,7 @@ public class RoleController {
     Role res = roleService.get(id);
     // we add user relation
     UserDTO userDTO = new UserDTO();
-    userDTO.setRoleId(res.getId());
+    userDTO.setFuzzyRoleId(res.getId());
     List<User> userList = this.userService.findAll(userDTO);
     res.setUserList(userList);
 

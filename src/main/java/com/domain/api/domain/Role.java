@@ -23,12 +23,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.*;
 
 import java.util.List;
 
 import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
 import static org.springframework.data.repository.query.parser.Part.Type.IN;
+import static org.springframework.data.repository.query.parser.Part.Type.SIMPLE_PROPERTY;
 
 
 /**
@@ -51,12 +53,13 @@ public class Role extends VersionId {
     private String name;
 
 
-    @ManyToMany
+//    @ManyToMany
     @Conditions({
-            @Condition,
-            @Condition(type = IN, properties = "userId"),
+//            @Condition,
+            @Condition(type = SIMPLE_PROPERTY, properties = "fuzzyUserId"),
     })
-    @JoinTable(name = "role_user")
+//    @JoinTable(name = "role_user")
+    @Transient
     private List<User> userList;
 
 

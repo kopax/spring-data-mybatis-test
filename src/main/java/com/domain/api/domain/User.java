@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mybatis.annotations.*;
 import org.springframework.hateoas.Identifiable;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
 import static org.springframework.data.repository.query.parser.Part.Type.IN;
+import static org.springframework.data.repository.query.parser.Part.Type.SIMPLE_PROPERTY;
 
 @Data
 @AllArgsConstructor
@@ -63,12 +65,13 @@ public class User extends VersionId implements Identifiable<Long> {
 	})
 	private String mobile;
 
-	@ManyToMany
+//	@ManyToMany
 	@Conditions({
-			@Condition,
-			@Condition(type = IN, properties = "roleId"),
+//			@Condition,
+			@Condition(type = SIMPLE_PROPERTY, properties = "fuzzyRoleId"),
 	})
-	@JoinTable(name = "role_user")
+	@Transient
+//	@JoinTable(name = "role_user")
 	private List<Role> roleList;
 
 //	@Override

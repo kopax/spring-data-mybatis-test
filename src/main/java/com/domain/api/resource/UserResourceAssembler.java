@@ -1,5 +1,6 @@
 package com.domain.api.resource;
 
+import com.domain.api.controller.RoleController;
 import com.domain.api.controller.UserController;
 import com.domain.api.domain.User;
 import org.springframework.hateoas.Link;
@@ -16,7 +17,8 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserRe
     public UserResource createResource(User user) {
         UserResource userResource = new UserResource(user);
         Link link = linkTo(UserController.class).slash(user.getId()).withSelfRel();
-        userResource.add(link);
+        Link roleLink = linkTo(RoleController.class).withRel("roles");
+        userResource.add(link, roleLink);
         return userResource;
     }
 

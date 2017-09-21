@@ -16,5 +16,5 @@ public class RoleDTO extends Role {
     private String fuzzyUserList;
     private String fuzzyDeleted;
 
-    private Long userId;
+//    private Long userId;
 }

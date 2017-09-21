@@ -41,8 +41,8 @@ public class UserController {
   // WITH PAGINATED METHOD
   @RequestMapping(value = "paged", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
   public ResponseEntity<?> showAllBis(PagedResourcesAssembler<User> pageAssembler, @PageableDefault(size = 20) Pageable pageable, UserDTO condition) {
-    Page<User> userList = userService.findAll(pageable, condition);
-    PagedResources<?> resources = pageAssembler.toResource(userList, new UserResourceAssembler());
+    Page<User> page = userService.findAll(pageable, condition);
+    PagedResources<?> resources = pageAssembler.toResource(page, new UserResourceAssembler());
     return ResponseEntity.ok(resources);
   }
 
@@ -60,7 +60,7 @@ public class UserController {
     if (page.hasContent()) {
       page.getContent().forEach(user -> {
         RoleDTO cond = new RoleDTO();
-        cond.setUserId(user.getId());
+        cond.setFuzzyUserId(user.getId());
         List<Role> roles = roleService.findAll(cond);
         user.setRoleList(roles);
       });
