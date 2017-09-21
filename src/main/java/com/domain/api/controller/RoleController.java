@@ -6,22 +6,22 @@ import com.domain.api.domain.Role;
 import com.domain.api.domain.RoleDTO;
 import com.domain.api.domain.User;
 import com.domain.api.domain.UserDTO;
+import com.domain.api.resource.RoleResource;
+import com.domain.api.resource.RoleResourceAssembler;
+import com.domain.api.resource.UserResource;
+import com.domain.api.resource.UserResourceAssembler;
 import com.domain.api.service.RoleService;
 import com.domain.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("roles")
@@ -32,6 +32,21 @@ public class RoleController {
   @Autowired
   private UserService userService;
 
+  // WITH PAGINATED METHOD
+  @RequestMapping(value = "paged", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+  public ResponseEntity<?> showAllBis(PagedResourcesAssembler<Role> pageAssembler, @PageableDefault(size = 20) Pageable pageable, RoleDTO condition) {
+    Page<Role> roleList = roleService.findAll(pageable, condition);
+    PagedResources<?> resources = pageAssembler.toResource(roleList, new RoleResourceAssembler());
+    return ResponseEntity.ok(resources);
+  }
+
+  @RequestMapping(value = "paged/{id}", produces= MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+  public ResponseEntity<RoleResource> showOneBis(@PathVariable("id") Long id) {
+    RoleResource resource = new RoleResourceAssembler().toResource(roleService.get(id));
+    return ResponseEntity.ok(resource);
+  }
+
+  // WITHOUT PAGINATED METHOD
   @GetMapping
   Page<Role> list(@PageableDefault(size = 20) Pageable pageable, RoleDTO condition) {
     return roleService.findAll(pageable, condition);

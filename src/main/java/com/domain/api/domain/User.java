@@ -7,9 +7,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mybatis.annotations.*;
+import org.springframework.hateoas.Identifiable;
 
-import org.springframework.data.annotation.Transient;
-
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
@@ -22,7 +22,7 @@ import static org.springframework.data.repository.query.parser.Part.Type.IN;
 @Entity(table = "user")
 @JsonIgnoreProperties("new")
 @EqualsAndHashCode(callSuper=false)
-public class User extends VersionId {
+public class User extends VersionId implements Identifiable<Long> {
 
 	@Conditions({
 		@Condition,
@@ -67,7 +67,6 @@ public class User extends VersionId {
 	@Conditions({
 			@Condition,
 			@Condition(type = IN, properties = "roleId"),
-//			@Condition(properties = "userId", type = CONTAINING)
 	})
 	@JoinTable(name = "role_user")
 	private List<Role> roleList;

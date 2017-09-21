@@ -28,6 +28,7 @@ import org.springframework.data.mybatis.annotations.*;
 import java.util.List;
 
 import static org.springframework.data.repository.query.parser.Part.Type.CONTAINING;
+import static org.springframework.data.repository.query.parser.Part.Type.IN;
 
 
 /**
@@ -51,6 +52,10 @@ public class Role extends VersionId {
 
 
     @ManyToMany
+    @Conditions({
+            @Condition,
+            @Condition(type = IN, properties = "userId"),
+    })
     @JoinTable(name = "role_user")
     private List<User> userList;
 

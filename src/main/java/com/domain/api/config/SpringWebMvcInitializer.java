@@ -1,9 +1,11 @@
 package com.domain.api.config;
 
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 @ComponentScan
+@EnableSpringDataWebSupport
 public class SpringWebMvcInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
