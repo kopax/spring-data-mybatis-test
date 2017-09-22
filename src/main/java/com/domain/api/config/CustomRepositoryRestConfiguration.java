@@ -1,5 +1,6 @@
 package com.domain.api.config;
 
+import com.domain.api.domain.Role;
 import com.domain.api.domain.User;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -10,7 +11,7 @@ public class CustomRepositoryRestConfiguration extends RepositoryRestConfigurerA
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration configuration) {
-        configuration.exposeIdsFor(User.class);
+        configuration.exposeIdsFor(User.class, Role.class);
     }
 
 }

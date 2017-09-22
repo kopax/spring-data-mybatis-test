@@ -38,9 +38,9 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
   @Override
   @Transactional(readOnly = true)
   public List<Role> getByUserId(Long userId) {
-    RoleDTO cond = new RoleDTO();
-    cond.setFuzzyUserId(userId);
-    return getRepository().findAll(cond);
+//    RoleDTO cond = new RoleDTO();
+//    cond.setFuzzyUserId(userId);
+    return getRepository().getByUserId(userId);
   }
 
   @Override

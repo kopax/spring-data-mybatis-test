@@ -17,4 +17,15 @@
       "role_id" = #{roleId,jdbcType=NUMERIC}
   </delete>
 
+  <select id="getByUserId" resultType="com.domain.api.domain.Role">
+    SELECT
+      "role"."id" as "id",
+      "role"."name" as "name"
+    FROM
+      <include refid="TABLE_NAME" /> "role"
+    LEFT OUTER JOIN
+      "role_user" "role_user" on "role_user"."role_id"="role"."id"
+    WHERE
+      "role_user"."user_id"=#{userId};
+  </select>
 </mapper>

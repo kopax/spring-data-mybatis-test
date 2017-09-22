@@ -39,45 +39,25 @@ public class UserController {
   private RoleService roleService;
 
   // WITH PAGINATED METHOD
-  @RequestMapping(value = "paged", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-  public ResponseEntity<?> showAllBis(PagedResourcesAssembler<User> pageAssembler, @PageableDefault(size = 20) Pageable pageable, UserDTO condition) {
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> find(PagedResourcesAssembler<User> pageAssembler, @PageableDefault(size = 20) Pageable pageable, UserDTO condition) {
     Page<User> page = userService.findAll(pageable, condition);
+    if (page.hasContent()) {
+      page.getContent().forEach(user -> {
+        List<Role> roleList = roleService.getByUserId(user.getId());
+        user.setRoleList(roleList);
+      });
+    }
     PagedResources<?> resources = pageAssembler.toResource(page, new UserResourceAssembler());
     return ResponseEntity.ok(resources);
   }
 
-  @RequestMapping(value = "paged/{id}", produces= MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-  public ResponseEntity<UserResource> showOneBis(@PathVariable("id") Long id) {
+  @GetMapping(value = "{id}", produces= MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserResource> get(@PathVariable("id") Long id) {
     UserResource resource = new UserResourceAssembler().toResource(userService.get(id));
     return ResponseEntity.ok(resource);
   }
 
-  // WITHOUT PAGINATED METHOD
-
-  @GetMapping
-  public Page<User> list(@PageableDefault(size = 20) Pageable pageable, UserDTO condition) {
-    Page<User> page = userService.findAll(pageable, condition);
-    if (page.hasContent()) {
-      page.getContent().forEach(user -> {
-        RoleDTO cond = new RoleDTO();
-        cond.setFuzzyUserId(user.getId());
-        List<Role> roles = roleService.findAll(cond);
-        user.setRoleList(roles);
-      });
-    }
-    return page;
-  }
-
-  @GetMapping("list")
-  List<User> list(UserDTO condition){
-    return userService.findAll(condition);
-  }
-
-  @GetMapping("{id}")
-//  @Auth(inner = true)
-  User get(@PathVariable("id") Long id) {
-    return userService.get(id);
-  }
   private void preProcessUser(@RequestBody User user) {
 //    if (StringUtils.hasText(user.getPassword())) {
 //      user.setPassword(userService.encrypt(user.getPassword()));

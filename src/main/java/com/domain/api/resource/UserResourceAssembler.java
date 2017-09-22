@@ -14,17 +14,17 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<User, UserRe
         super(UserController.class, UserResource.class);
     }
 
-    public UserResource createResource(User user) {
-        UserResource userResource = new UserResource(user);
-        Link link = linkTo(UserController.class).slash(user.getId()).withSelfRel();
-        Link roleLink = linkTo(RoleController.class).withRel("roles");
-        userResource.add(link, roleLink);
-        return userResource;
+    public UserResource createResource(User entity) {
+        UserResource resource = new UserResource(entity);
+        Link link = linkTo(UserController.class).slash(entity.getId()).withSelfRel();
+        Link roleLink = linkTo(RoleController.class).slash("?roleId="+entity.getId()).withRel("roleList");
+        resource.add(link, roleLink);
+        return resource;
     }
 
     @Override
-    public UserResource toResource(User user) {
-        UserResource resource = createResource(user);
+    public UserResource toResource(User entity) {
+        UserResource resource = createResource(entity);
         return resource;
     }
 
