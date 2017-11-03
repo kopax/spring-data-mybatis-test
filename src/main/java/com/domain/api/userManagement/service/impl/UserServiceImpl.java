@@ -56,7 +56,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
     user.setDeleted(true);
     updateIgnore(user);
 
-//    getRepository().deleteRoleUserByUserId(id);
+    getRepository().deleteRoleUserByUserId(id);
 
   }
 
@@ -77,11 +77,11 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
 //    user.setId(AppContext.get().getIdWorker().nextIdAsString());
     user.setDeleted(false);
     super.insert(user);
-//
-//    if (user.getRoleList() != null && user.getRoleList().size() > 0) {
-//      for (Role role : user.getRoleList())
-//        getRepository().insertRoleUser(role.getId(), user.getId());
-//    }
+
+    if (user.getRoleList() != null && user.getRoleList().size() > 0) {
+      for (Role role : user.getRoleList())
+        getRepository().insertRoleUser(role.getId(), user.getId());
+    }
 
   }
 
@@ -90,12 +90,12 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
   public void updateIgnore(User user) {
     super.updateIgnore(user);
 
-//    getRepository().deleteRoleUserByUserId(user.getId());
-//
-//    if (user.getRoleList() != null && user.getRoleList().size() > 0) {
-//      for (Role role : user.getRoleList())
-//        getRepository().insertRoleUser(role.getId(), user.getId());
-//    }
+    getRepository().deleteRoleUserByUserId(user.getId());
+
+    if (user.getRoleList() != null && user.getRoleList().size() > 0) {
+      for (Role role : user.getRoleList())
+        getRepository().insertRoleUser(role.getId(), user.getId());
+    }
 
 
   }

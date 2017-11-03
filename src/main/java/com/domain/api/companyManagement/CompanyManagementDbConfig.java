@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.flywaydb.core.Flyway;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,11 +21,17 @@ import java.sql.SQLException;
 @Configuration
 @EnableTransactionManagement
 @EnableMybatisRepositories(
-        value = "com.domain.api.companyManagement.repository",
-        mapperLocations = {
-                "classpath*:/mappers/companyManagement/*Mapper.xml",
-                "classpath*:/beforemappers/companyManagement/*Mapper.xml"
+        transactionManagerRef = "companyManagement",
+        sqlSessionFactoryRef = "companyManagementSqlSessionFactory",
+        considerNestedRepositories = true,
+        value = {
+                "com.domain.api.companyManagement.repository",
+                "com.domain.api.companyManagement.service"
         }
+//        mapperLocations = {
+//                "classpath*:/mappers/companyManagement/*Mapper.xml",
+//                "classpath*:/beforemappers/companyManagement/*Mapper.xml"
+//        }
 )
 public class CompanyManagementDbConfig {
 
@@ -37,7 +44,7 @@ public class CompanyManagementDbConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean
+    @Bean(name = "companyManagement")
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
@@ -46,12 +53,6 @@ public class CompanyManagementDbConfig {
     public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-//        sessionFactory.setTypeHandlers(new TypeHandler[] {
-//
-//        });
-//        sessionFactory.setTypeAliases(new Class[] {
-//
-//        });
         return sessionFactory;
     }
 

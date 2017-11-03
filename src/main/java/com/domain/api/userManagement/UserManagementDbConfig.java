@@ -1,8 +1,6 @@
 package com.domain.api.userManagement;
 
-import com.domain.api.config.DataSourceProperties;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.type.*;
 import org.flywaydb.core.Flyway;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -23,20 +21,25 @@ import java.sql.SQLException;
 @Configuration
 @EnableTransactionManagement
 @EnableMybatisRepositories(
-        value = "com.domain.api.userManagement.repository",
-        mapperLocations = {
-                "classpath*:/mappers/userManagement/*Mapper.xml",
-                "classpath*:/beforemappers/userManagement/*Mapper.xml"
+        transactionManagerRef = "transactionManager",
+        sqlSessionFactoryRef = "sqlSessionFactory",
+        value = {
+                "com.domain.api.userManagement.repository",
+                "com.domain.api.userManagement.service"
         }
+//        mapperLocations = {
+//                "classpath*:/mappers/userManagement/*Mapper.xml",
+//                "classpath*:/beforemappers/userManagement/*Mapper.xml"
+//        }
 )
 public class UserManagementDbConfig {
 
-    @Value("${api.db.userManagement.version}")
+    @Value("${spring.datasource.version}")
     private String version;
 
     @Primary
     @Bean(name = "dataSource")
-    @ConfigurationProperties(prefix = "api.db.userManagement")
+    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
@@ -50,15 +53,8 @@ public class UserManagementDbConfig {
     public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setTypeHandlers(new TypeHandler[] {
-
-        });
-        sessionFactory.setTypeAliases(new Class[] {
-
-        });
         return sessionFactory;
     }
-
 
     @Bean
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {

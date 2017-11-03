@@ -11,20 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TestServiceImpl extends AbstractCrudService<TestRepository, Test, Long> implements TestService {
 
-  @Autowired
-  public TestServiceImpl(TestRepository repository) {
-    super(repository);
-  }
+    @Autowired
+    public TestServiceImpl(TestRepository repository) {
+        super(repository);
+    }
 
-  @Override
-  @Transactional
-  public void insert(Test user) {
-    super.insert(user);
-  }
+    @Override
+    @Transactional("companyManagement")
+    public void insert(Test user) {
+        super.insert(user);
+    }
 
-  @Override
-  @Transactional
-  public void updateIgnore(Test user) {
-    super.updateIgnore(user);
-  }
+    @Override
+    public void updateIgnore(Test user) {
+        super.updateIgnore(user);
+    }
 }
