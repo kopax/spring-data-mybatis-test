@@ -17,8 +17,8 @@ api:
       alias: domain
   db:
     userManagement:
-      version: 0.0.18
-      url: jdbc:postgresql://localhost:3333/DATA_V1?autoReconnect=true&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=UTF-8
+      version: 0.0.17
+      url: jdbc:postgresql://localhost:3333/UM?autoReconnect=true&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=UTF-8
       username: backoffice
       password: backoffice
       driver-class-name: org.postgresql.Driver
@@ -34,7 +34,7 @@ api:
       testWhileIdle: true
     companyManagement:
       version: 0.0.17
-      url: jdbc:postgresql://localhost:3334/DATA_V1?autoReconnect=true&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=UTF-8
+      url: jdbc:postgresql://localhost:3334/CM?autoReconnect=true&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=UTF-8
       username: backoffice
       password: backoffice
       driver-class-name: org.postgresql.Driver
@@ -52,9 +52,7 @@ api:
     basenames:
       - classpath*:/META-INF/api-application
       - classpath*:/META-INF/api-userManagement
-      - classpath*:/META-INF/api-company
-      - classpath*:/META-INF/api-customer
-      - classpath*:/META-INF/api-user
+      - classpath*:/META-INF/api-companyManagement
 
 spring:
   http:
