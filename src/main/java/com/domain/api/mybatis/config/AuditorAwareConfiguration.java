@@ -19,11 +19,11 @@ package com.domain.api.mybatis.config;
 //					return null;
 //				}
 //
-//				User user = null;
+//				Test user = null;
 //				Object principal = authentication.getPrincipal();
 //
-//				if (principal.getClass().equals(User.class)) {
-//					user = (User) principal;
+//				if (principal.getClass().equals(Test.class)) {
+//					user = (Test) principal;
 //				}
 //
 //				if (null == user) {

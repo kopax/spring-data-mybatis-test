@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  pgsql-um:
+    image: postgres:9.6.3-alpine
+    ports:
+      - "0.0.0.0:3333:5432"
+    restart: "always"
+    environment:
+      - POSTGRES_USER=backoffice
+      - POSTGRES_PASSWORD=backoffice
+      - POSTGRES_DB=UM
+      - PGDATA=/var/lib/postgresql/data/UM
+  pgsql-cm:
+    image: postgres:9.6.3-alpine
+    ports:
+      - "0.0.0.0:3334:5432"
+    restart: "always"
+    environment:
+      - POSTGRES_USER=backoffice
+      - POSTGRES_PASSWORD=backoffice
+      - POSTGRES_DB=CM
+      - PGDATA=/var/lib/postgresql/data/CM

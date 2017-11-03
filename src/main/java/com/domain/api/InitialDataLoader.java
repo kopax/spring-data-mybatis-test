@@ -1,9 +1,9 @@
 package com.domain.api;
 
-import com.domain.api.domain.Role;
-import com.domain.api.domain.User;
-import com.domain.api.service.RoleService;
-import com.domain.api.service.UserService;
+import com.domain.api.userManagement.domain.Role;
+import com.domain.api.userManagement.domain.User;
+import com.domain.api.userManagement.service.RoleService;
+import com.domain.api.userManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
@@ -63,7 +63,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         for (int i = 0; i < 50; i++) {
             User user = new User();
             user.setUsername("user" + i);
-            user.setFirstName("User" + i);
+            user.setFirstName("Test" + i);
             user.setLastName("robot");
             user.setMobile("0101010100011" + i);
             user.setPassword("********");
