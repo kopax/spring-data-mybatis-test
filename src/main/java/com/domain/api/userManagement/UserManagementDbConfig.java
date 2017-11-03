@@ -21,47 +21,42 @@ import java.sql.SQLException;
 @Configuration
 @EnableTransactionManagement
 @EnableMybatisRepositories(
-        transactionManagerRef = "transactionManager",
-        sqlSessionFactoryRef = "sqlSessionFactory",
-        value = {
-                "com.domain.api.userManagement.repository",
-                "com.domain.api.userManagement.service"
-        }
-//        mapperLocations = {
-//                "classpath*:/mappers/userManagement/*Mapper.xml",
-//                "classpath*:/beforemappers/userManagement/*Mapper.xml"
-//        }
+        transactionManagerRef = "userManagementTransactionManager",
+        sqlSessionFactoryRef = "userManagementSqlSessionFactory",
+        value = "com.domain.api.userManagement.repository"
 )
 public class UserManagementDbConfig {
 
-    @Value("${spring.datasource.version}")
+    @Value("${api.db.userManagement.version}")
     private String version;
 
     @Primary
-    @Bean(name = "dataSource")
-    @ConfigurationProperties(prefix = "spring.datasource")
+    @Bean(name = "userManagementDataSource")
+    @ConfigurationProperties(prefix = "api.db.userManagement")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean
+    @Primary
+    @Bean(name = "userManagementTransactionManager")
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean
+    @Primary
+    @Bean(name = "userManagementSqlSessionFactory")
     public SqlSessionFactoryBean sqlSessionFactory() throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         return sessionFactory;
     }
 
-    @Bean
+    @Bean(name = "userManagementSqlSessionTemplate")
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
-    @Bean(initMethod = "migrate")
+    @Bean(initMethod = "migrate", name = "userManagementFlyway")
     public Flyway flyway() throws SQLException {
         Flyway flyway = new Flyway();
         flyway.setBaselineOnMigrate(true);

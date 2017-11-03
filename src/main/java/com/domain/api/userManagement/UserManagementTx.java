@@ -1,4 +1,4 @@
-package com.domain.api.companyManagement;
+package com.domain.api.userManagement;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,8 +10,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Transactional("companyManagementTransactionManager")
-public @interface CompanyManagementTx {
+@Transactional("userManagementTransactionManager")
+public @interface UserManagementTx {
 
     @AliasFor(annotation = Transactional.class, attribute = "readOnly")
     boolean readOnly() default false;

@@ -1,5 +1,6 @@
 package com.domain.api.userManagement.service.impl;
 
+import com.domain.api.userManagement.UserManagementTx;
 import com.domain.api.userManagement.domain.Role;
 import com.domain.api.userManagement.domain.User;
 import com.domain.api.userManagement.domain.UserDTO;
@@ -8,7 +9,6 @@ import com.domain.api.userManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl extends AbstractCrudService<UserRepository, User, Long> implements UserService {
@@ -24,7 +24,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
   }
 
   @Override
-  @Transactional(readOnly = true)
+  @UserManagementTx(readOnly = true)
   public User getByUsername(String username) {
     UserDTO cond = new UserDTO();
     cond.setUsername(username);
@@ -33,7 +33,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
   }
 
   @Override
-  @Transactional(readOnly = true)
+  @UserManagementTx(readOnly = true)
   public User getByMobile(String mobile) {
     UserDTO cond = new UserDTO();
     cond.setMobile(mobile);
@@ -41,7 +41,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
   }
 
   @Override
-  @Transactional(readOnly = true)
+  @UserManagementTx(readOnly = true)
   public User getByEmail(String email) {
     UserDTO cond = new UserDTO();
     cond.setEmail(email);
@@ -49,7 +49,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
   }
 
   @Override
-  @Transactional
+  @UserManagementTx
   public void delete(Long id) {
     User user = new User();
     user.setId(id);
@@ -61,7 +61,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
   }
 
   @Override
-  @Transactional
+  @UserManagementTx
   public void delete(Long[] ids) {
 //    if (ArrayUtil.isEmpty(ids)) {
 //      return;
@@ -72,7 +72,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
   }
 
   @Override
-  @Transactional
+  @UserManagementTx
   public void insert(User user) {
 //    user.setId(AppContext.get().getIdWorker().nextIdAsString());
     user.setDeleted(false);
@@ -86,7 +86,7 @@ public class UserServiceImpl extends AbstractCrudService<UserRepository, User, L
   }
 
   @Override
-  @Transactional
+  @UserManagementTx
   public void updateIgnore(User user) {
     super.updateIgnore(user);
 

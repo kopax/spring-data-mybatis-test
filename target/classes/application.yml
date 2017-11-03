@@ -55,22 +55,6 @@ api:
       - classpath*:/META-INF/api-companyManagement
 
 spring:
-  datasource:
-    version: 0.0.17
-    url: jdbc:postgresql://localhost:3333/UM?autoReconnect=true&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&characterEncoding=UTF-8
-    username: backoffice
-    password: backoffice
-    driver-class-name: org.postgresql.Driver
-    minIdle: 0
-    maxIdle: 10
-    maxActive: 50
-    maxWait: 6000
-    testOnBorrow: true
-    validationQuery: SELECT 1
-    timeBetweenEvictionRunsMillis: 1800000
-    numTestsPerEvictionRun: 50
-    minEvictableIdleTimeMillis: 10
-    testWhileIdle: true
   http:
     encoding:
       charset: UTF-8

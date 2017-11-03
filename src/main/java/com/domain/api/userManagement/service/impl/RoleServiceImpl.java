@@ -1,6 +1,7 @@
 package com.domain.api.userManagement.service.impl;
 
 
+import com.domain.api.userManagement.UserManagementTx;
 import com.domain.api.userManagement.domain.Role;
 import com.domain.api.userManagement.domain.RoleDTO;
 import com.domain.api.userManagement.domain.User;
@@ -9,7 +10,6 @@ import com.domain.api.userManagement.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.support.AbstractCrudService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
   }
 
   @Override
-  @Transactional(readOnly = true)
+  @UserManagementTx(readOnly = true)
   public Role getByName(String name) {
     RoleDTO cond = new RoleDTO();
     cond.setName(name);
@@ -36,7 +36,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
   }
 
   @Override
-  @Transactional(readOnly = true)
+  @UserManagementTx(readOnly = true)
   public List<Role> getByUserId(Long userId) {
 //    RoleDTO cond = new RoleDTO();
 //    cond.setFuzzyUserId(userId);
@@ -44,7 +44,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
   }
 
   @Override
-  @Transactional
+  @UserManagementTx
   public void updateIgnore(Role role) {
 
     super.updateIgnore(role);
@@ -59,7 +59,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
 
 
   @Override
-  @Transactional
+  @UserManagementTx
   public void insert(Role role) {
     super.insert(role);
 
@@ -71,7 +71,7 @@ public class RoleServiceImpl extends AbstractCrudService<RoleRepository, Role, L
   }
 
   @Override
-  @Transactional
+  @UserManagementTx
   public void delete(Long id) {
     super.delete(id);
     getRepository().deleteRoleUserByRoleId(id);

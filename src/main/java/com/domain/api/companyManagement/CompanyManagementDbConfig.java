@@ -4,7 +4,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.flywaydb.core.Flyway;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -13,25 +12,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mybatis.repository.config.EnableMybatisRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @Configuration
-@EnableTransactionManagement
 @EnableMybatisRepositories(
-        transactionManagerRef = "companyManagement",
+        transactionManagerRef = "companyManagementTransactionManager",
         sqlSessionFactoryRef = "companyManagementSqlSessionFactory",
-        considerNestedRepositories = true,
-        value = {
-                "com.domain.api.companyManagement.repository",
-                "com.domain.api.companyManagement.service"
-        }
-//        mapperLocations = {
-//                "classpath*:/mappers/companyManagement/*Mapper.xml",
-//                "classpath*:/beforemappers/companyManagement/*Mapper.xml"
-//        }
+        value = "com.domain.api.companyManagement.repository"
 )
 public class CompanyManagementDbConfig {
 
@@ -44,7 +33,7 @@ public class CompanyManagementDbConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "companyManagement")
+    @Bean(name = "companyManagementTransactionManager")
     public PlatformTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
